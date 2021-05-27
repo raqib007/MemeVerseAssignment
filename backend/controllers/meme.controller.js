@@ -59,17 +59,22 @@ exports.update = (req, res) => {
 };
 
 // Find a single meme with an id
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
     const id = req.params.meme_id;
-    Meme.findById(id)
-        .then(data => {
-            if (!data)
-                res.status(404).send({ message: "Not found Meme with id " + id });
-            else res.status(200).send(data);
-        })
-        .catch(err => {
-            res.status(500).send({ message: "Error retrieving Meme with id=" + id });
+    try{
+        let memes = await Meme.findById(id)
+            .populate('category', { 'name': 1 })
+            .populate('user_id', { 'email': 1,'first_name': 1,'last_name': 1 });
+        let data = [];
+        const comments = await Comment.find({ meme_id: new ObjectId(memes._id) });
+        data.push(Object.assign({},memes?._doc,{comments:comments}));
+        res.status(200).json(data[0]);
+    }catch (error){
+        res.status(500).send({
+            message:
+                error.message || "Some error occurred while retrieving user memes."
         });
+    }
 };
 // Retrieve all meme from the database.
 exports.getAll = async (req, res) => {

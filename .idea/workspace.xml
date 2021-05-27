@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e57c96e0-34af-4d64-bf48-d8249fd99e27" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Meme.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Meme.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/MemeDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MemeDetails.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +58,7 @@
       <workItem from="1622037151450" duration="11760000" />
       <workItem from="1622107004757" duration="10351000" />
       <workItem from="1622121980833" duration="8508000" />
-      <workItem from="1622136713767" duration="2268000" />
+      <workItem from="1622136713767" duration="4669000" />
     </task>
     <servers />
   </component>
