@@ -1,0 +1,11 @@
+@import "~antd/dist/antd.min.css";
+
+.site-layout-background {
+  /* background: #e2e1e0;
+  padding: 24px;
+  min-height: 280px; */
+}
+
+.ant-layout{
+  background: none;
+}

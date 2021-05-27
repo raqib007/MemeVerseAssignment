@@ -1,0 +1,13 @@
+
+.div-category-list .ant-list-item{
+    padding: 0;
+}
+.div-category-list .ant-list-item-meta{
+    padding: 8px;
+}
+.div-category-list .ant-list-item-meta-title>a:hover {
+    color: #000;
+}
+.div-category-list .ant-list-split .ant-list-item :hover{
+    background-color: #ddd;
+}
