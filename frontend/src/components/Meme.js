@@ -38,7 +38,7 @@ export default function Meme(props) {
                 >
                     <List.Item.Meta
                         avatar={<Avatar src={item.avatar}/>}
-                        title={ <Link to={`/meme/${item._id}`}>{item.user_id.first_name} {item.user_id.last_name}</Link>}
+                        title={ <Link to={`/details/${item._id}`}>{item.user_id.first_name} {item.user_id.last_name}</Link>}
                         description={
                             <>
                                 <p>{item.description}</p>

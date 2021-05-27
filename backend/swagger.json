@@ -1,9 +1,9 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "1.0.0", 
+        "version": "1.0.0",
         "title": "MemeVerse",
-        "description": "https://meme-verse-2021.herokuapp.com/api",
+        "description": "https://meme-verse-2021.herokuapp.com",
         "termsOfService": "http://swagger.io/terms/",
         "license": {
             "name": "Md. Raqib Hasan",
@@ -12,19 +12,21 @@
     },
     "basePath": "/api",
     "schemes": [
-      "https",
-      "http"
+        "https",
+        "http"
     ],
     "consumes": [
-      "application/json"
+        "application/json"
     ],
     "produces": [
-      "application/json"
+        "application/json"
     ],
     "paths": {
         "/signin/": {
             "post": {
-                "tags": ["Auth"],
+                "tags": [
+                    "Auth"
+                ],
                 "summary": "Sign in function",
                 "description": "Endpoint to signin.",
                 "produces": [
@@ -43,16 +45,15 @@
                             "$ref": "#/definitions/singin"
                         }
                     }
-                    
                 ],
                 "responses": {
                     "201": {
                         "description": "OK",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/response"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
                             }
                         }
                     },
@@ -60,30 +61,32 @@
                         "description": "Access Denied",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/400error"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
                             }
                         }
                     },
                     "404": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     },
                     "500": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     }
                 }
             }
         },
         "/users/": {
             "get": {
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "summary": "Get all user",
                 "description": "Endpoint to create new user.",
                 "produces": [
@@ -97,9 +100,9 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/users"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/users"
+                                }
                             }
                         }
                     },
@@ -107,28 +110,30 @@
                         "description": "Access Denied",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/400error"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
                             }
                         }
                     },
                     "404": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     },
                     "500": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     }
                 }
             },
             "post": {
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "summary": "Create new category",
                 "description": "Endpoint to create category.",
                 "produces": [
@@ -147,16 +152,15 @@
                             "$ref": "#/definitions/users"
                         }
                     }
-                    
                 ],
                 "responses": {
                     "201": {
                         "description": "OK",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/response"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
                             }
                         }
                     },
@@ -164,23 +168,23 @@
                         "description": "Access Denied",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/400error"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
                             }
                         }
                     },
                     "404": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     },
                     "500": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     }
                 }
             }
@@ -197,7 +201,9 @@
             ],
             "put": {
                 "summary": "Update User",
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "parameters": [
                     {
                         "name": "User",
@@ -219,17 +225,27 @@
             },
             "delete": {
                 "summary": "Delete user with given id",
-                "tags": ["User"],
+                "tags": [
+                    "User"
+                ],
                 "responses": {
-                    "200": {"description": "User is deleted"},
-                    "404": {"description": "id not found"},
-                    "401": {"description": "Unauthorized"}
+                    "200": {
+                        "description": "User is deleted"
+                    },
+                    "404": {
+                        "description": "id not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
                 }
             }
         },
         "/category/": {
             "get": {
-                "tags": ["Category"],
+                "tags": [
+                    "Category"
+                ],
                 "summary": "Get all category",
                 "description": "Endpoint to create new user.",
                 "produces": [
@@ -243,9 +259,9 @@
                         "description": "OK",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/response"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
                             }
                         }
                     },
@@ -253,28 +269,30 @@
                         "description": "Access Denied",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/400error"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
                             }
                         }
                     },
                     "404": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     },
                     "500": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     }
                 }
             },
             "post": {
-                "tags": ["Category"],
+                "tags": [
+                    "Category"
+                ],
                 "summary": "Create new category",
                 "description": "Endpoint to create category.",
                 "produces": [
@@ -293,16 +311,15 @@
                             "$ref": "#/definitions/category"
                         }
                     }
-                    
                 ],
                 "responses": {
                     "201": {
                         "description": "OK",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/response"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
                             }
                         }
                     },
@@ -310,33 +327,41 @@
                         "description": "Access Denied",
                         "content": {
                             "application/json": {
-                              "schema": {
-                                "$ref": "#/definitions/400error"
-                              }
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
                             }
                         }
                     },
                     "404": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     },
                     "500": {
                         "description": "OK",
-                            "schema": {
-                                "$ref": "#/definitions/400error"
-                            }
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
                     }
                 }
             },
             "delete": {
                 "summary": "Delete all category",
-                "tags": ["Category"],
+                "tags": [
+                    "Category"
+                ],
                 "responses": {
-                    "200": {"description": "Category is deleted"},
-                    "404": {"description": "id not found"},
-                    "401": {"description": "Unauthorized"}
+                    "200": {
+                        "description": "Category is deleted"
+                    },
+                    "404": {
+                        "description": "id not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
                 }
             }
         },
@@ -352,10 +377,12 @@
             ],
             "get": {
                 "summary": "Get category deatils with given categoryId",
-                "tags": ["Category"],
+                "tags": [
+                    "Category"
+                ],
                 "responses": {
                     "200": {
-                    "description": "OK",
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/category"
                         }
@@ -364,7 +391,9 @@
             },
             "put": {
                 "summary": "Update category",
-                "tags": ["Category"],
+                "tags": [
+                    "Category"
+                ],
                 "parameters": [
                     {
                         "name": "Category",
@@ -386,11 +415,164 @@
             },
             "delete": {
                 "summary": "Delete category with given categoryId",
-                "tags": ["Category"],
+                "tags": [
+                    "Category"
+                ],
                 "responses": {
-                    "200": {"description": "Category is deleted"},
-                    "404": {"description": "id not found"},
-                    "401": {"description": "Unauthorized"}
+                    "200": {
+                        "description": "Category is deleted"
+                    },
+                    "404": {
+                        "description": "id not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/meme/": {
+            "get": {
+                "tags": [
+                    "Meme Post"
+                ],
+                "summary": "Get all meme",
+                "description": "Endpoint to get all meme.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Meme Post"
+                ],
+                "summary": "Create new meme",
+                "description": "Endpoint to create meme.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Meme Parameters",
+                        "in": "body",
+                        "description": "Meme to add to the database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/meme"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
+                    }
+                }
+            }
+        },
+        "/meme/{meme_id}": {
+            "parameters": [
+                {
+                    "name": "meme_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of meme table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get meme deatils with given meme_id",
+                "tags": [
+                    "Meme Post"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update meme",
+                "tags": [
+                    "Meme Post"
+                ],
+                "parameters": [
+                    {
+                        "name": "meme",
+                        "in": "body",
+                        "description": "meme details",
+                        "schema": {
+                            "$ref": "#/definitions/meme"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meme is updated",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete meme with given meme_id",
+                "tags": [
+                    "Meme Post"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meme is deleted"
+                    },
+                    "404": {
+                        "description": "id not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
                 }
             }
         }
@@ -399,12 +581,12 @@
         "singin": {
             "properties": {
                 "email": {
-                    "required":true,
+                    "required": true,
                     "type": "string",
                     "example": "raqib@gmail.com"
                 },
                 "password": {
-                    "required":true,
+                    "required": true,
                     "type": "string",
                     "example": "12345678"
                 }
@@ -413,19 +595,19 @@
         "users": {
             "properties": {
                 "first_name": {
-                    "required":true,
+                    "required": true,
                     "type": "string"
                 },
                 "last_name": {
-                    "required":true,
+                    "required": true,
                     "type": "string"
                 },
                 "email": {
-                    "required":true,
+                    "required": true,
                     "type": "string"
                 },
                 "password": {
-                    "required":true,
+                    "required": true,
                     "type": "string"
                 }
             }
@@ -433,145 +615,69 @@
         "category": {
             "properties": {
                 "name": {
-                    "required":true,
+                    "required": true,
                     "type": "string"
                 }
             }
         },
-        "task": {
+        "meme": {
             "properties": {
-                "name": {
-                    "required":true,
-                    "type": "string"
-                },
-                "categoryId": {
-                    "required":true,
+                "user_id": {
+                    "required": true,
                     "type": "string"
                 },
                 "description": {
+                    "required": true,
                     "type": "string"
                 },
-                "dueDate": {
-                    "required":true,
+                "category": {
+                    "required": true,
                     "type": "string"
                 },
-                "reminderDate": {
-                    "required":true,
+                "image_public_id": {
+                    "required": true,
                     "type": "string"
                 },
-                "status": {
-                    "required":true,
-                    "type": "integer"
-                },
-                "assignedBy": {
-                    "required":true,
+                "image_url": {
+                    "required": true,
                     "type": "string"
                 },
-                "assignedTo": {
-                    "required":true,
-                    "type": "string"
+                "up_vote": {
+                    "type": "number"
                 },
-                "subTasks": {
-                    "type" : "array",
-                    "items": {
-                        "$ref" : "#/definitions/subTasks_inner"
-                    }
+                "down_vote": {
+                    "type": "number"
                 }
             }
         },
-        "subTask":{
-            "properties":{
-                "name": {
-                    "required":true,
-                    "type": "string"
-                },
-                "status": {
-                    "type": "boolean"
-                },
-                "taskId": {
-                    "type": "string"
-                }
-            }
-        },
-        "subTaskArray" : {
-            "type" : "array",
-            "items" : {
-                "$ref" : "#/definitions/subTasks_inner"
-            }
-        },
-        "subTasks_inner" : {
-            "properties" : {
-                "name": {
-                    "required":true,
-                    "type": "string"
-                },
-                "status": {
-                    "type": "boolean"
-                }
-            }
-        },
-        "files": {
-            "properties": {
-                "original_filename": {
-                    "type": "string"
-                },
-                "public_id": {
-                    "type": "string"
-                },
-                "width": {
-                    "type": "string"
-                },
-                "height": {
-                    "type": "string"
-                },
-                "format": {
-                    "type": "string"
-                },
-                "resource_type": {
-                    "type": "string"
-                },
-                "bytes": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "secure_url": {
-                    "type": "string"
-                },
-                "taskId": {
-                    "type": "string"
-                }
-            }
-        },
-        "response" : {
+        "response": {
             "properties": {
                 "status": {
                     "type": "boolean",
-                    "example" : true
+                    "example": true
                 },
-                "httpStatusCode" : {
+                "httpStatusCode": {
                     "type": "integer"
                 },
                 "message": {
                     "type": "string",
-                    "example" : "400 Bad Request"
+                    "example": "400 Bad Request"
                 }
             }
         },
-        "400error" : {
+        "400error": {
             "properties": {
                 "message": {
                     "type": "string",
-                    "example" : "400 Bad Request"
+                    "example": "400 Bad Request"
                 }
             }
         },
-        "500error" : {
+        "500error": {
             "properties": {
                 "message": {
                     "type": "string",
-                    "example" : "Internal Server Error"
+                    "example": "Internal Server Error"
                 }
             }
         }

@@ -22,7 +22,7 @@ export default function Category(props) {
                             avatar={<Avatar shape="square" size="small"
                                 src="https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557216707.0007_ESESyM_100x100.jpg"
                             />}
-                            title={<Link to={`/${item.name}`}>{item.name}</Link>}
+                            title={<Link to={`/meme/${item.name}`}>{item.name}</Link>}
                         />
                     </List.Item>
                     

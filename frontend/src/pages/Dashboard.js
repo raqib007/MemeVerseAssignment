@@ -114,14 +114,17 @@ export default function Dashboard(props) {
                                 <Route path="/" exact>
                                     <Meme memes={memes} onUpVoteClick={handleUpVoteClick} onDownVoteClick={handleDownVoteClick}/>
                                 </Route>
-                                <Route path="/:type" exact>
+                                <Route path="/meme/:type" exact>
                                     <Meme memes={memes} onUpVoteClick={handleUpVoteClick} onDownVoteClick={handleDownVoteClick}/>
                                 </Route>
-                                <Route path="/meme/:id" exact>
+                                <Route path="/details/:id" exact>
                                     <MemeDetails onUpVoteClick={handleUpVoteClick} onDownVoteClick={handleDownVoteClick}/>
                                 </Route>
                                 <Route path="/comments/:id" exact>
                                     <MemeDetails onUpVoteClick={handleUpVoteClick} onDownVoteClick={handleDownVoteClick}/>
+                                </Route>
+                                <Route>
+                                    <h1 style={{textAlign:'center'}}>404 | Not Found</h1>
                                 </Route>
                             </Switch>
                         </Col>

@@ -1,11 +1,36 @@
-import React from 'react';
-import {useParams} from 'react-router-dom';
+import React,{useEffect, useState} from 'react';
+import {useParams, useHistory} from 'react-router-dom';
 import {Avatar, Button, Image, Row, Space, Tag, Form, Input, Comment, Col, Divider} from "antd";
 import {DislikeOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons";
+import useFetch from '../custom-hooks/useFetch';
 
 export default function MemeDetails(props) {
     const params = useParams();
+    const history = useHistory();
+    const {get, isLoading} = useFetch('http://localhost:3000/api/');
+    const [meme, setMeme] = useState(null);
+    const [comments, setComments] = useState([]);
+
     const { TextArea } = Input;
+    useEffect(()=>{
+        get(`meme/${params.id}`)
+            .then(response=>{
+                console.log(response);
+                setMeme(response);
+            })
+            .catch(error=>{
+                console.log(error);
+            });
+
+        // get(`meme/${params.id}`)
+        //     .then(response=>{
+        //         console.log(response);
+        //         setMeme(response);
+        //     })
+        //     .catch(error=>{
+        //         console.log(error);
+        //     });
+    },[]);
 
     const IconText = ({icon, text}) => (
         <Space>
