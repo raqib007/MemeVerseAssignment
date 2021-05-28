@@ -10,7 +10,7 @@ export default function Signin(props){
 
     const handleCreateAccount = (e) => {
         e.preventDefault();
-        props.onAccountClick(true,'signup');
+        props.onAccountClick(true,'signup','Sign Up');
     }
 
     return(

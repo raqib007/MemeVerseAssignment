@@ -1,14 +1,9 @@
 import React from 'react';
-import { List, Avatar, Menu } from 'antd';
+import { List, Avatar, Typography  } from 'antd';
 import '../pages/css/category.css';
 import { Link } from "react-router-dom";
-import {
-    MailOutlined,
-    CalendarOutlined,
-    AppstoreOutlined,
-    SettingOutlined,
-    LinkOutlined,
-} from '@ant-design/icons';
+
+
 
 export default function Category(props) {
     return (

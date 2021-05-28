@@ -12,8 +12,8 @@
     },
     "basePath": "/api",
     "schemes": [
-        "https",
-        "http"
+        "http",
+        "https"
     ],
     "consumes": [
         "application/json"
@@ -189,10 +189,10 @@
                 }
             }
         },
-        "/users/{userId}": {
+        "/users/{id}": {
             "parameters": [
                 {
-                    "name": "userId",
+                    "name": "id",
                     "in": "path",
                     "required": true,
                     "description": "Primary key of users table",
@@ -237,6 +237,31 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/users/{id}/follow-user": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of user table",
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "summary": "Follow user",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
                     }
                 }
             }
@@ -469,6 +494,11 @@
                 "consumes": [
                     "application/json"
                 ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "Meme Parameters",
@@ -539,6 +569,11 @@
                 "tags": [
                     "Meme Post"
                 ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "meme",
@@ -563,6 +598,11 @@
                 "tags": [
                     "Meme Post"
                 ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Meme is deleted"
@@ -572,6 +612,66 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/meme/like/{meme_id}": {
+            "parameters": [
+                {
+                    "name": "meme_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of meme table",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "summary": "Like meme",
+                "tags": [
+                    "Meme Like"
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meme is updated",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                }
+            }
+        },
+        "/meme/unlike/{meme_id}": {
+            "parameters": [
+                {
+                    "name": "meme_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of meme table",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "summary": "Dislike meme",
+                "tags": [
+                    "Meme Dislike"
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meme is updated",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
                     }
                 }
             }
@@ -622,10 +722,6 @@
         },
         "meme": {
             "properties": {
-                "user_id": {
-                    "required": true,
-                    "type": "string"
-                },
                 "description": {
                     "required": true,
                     "type": "string"
@@ -642,11 +738,27 @@
                     "required": true,
                     "type": "string"
                 },
-                "up_vote": {
-                    "type": "number"
+                "likes": {
+                    "type" : "array",
+                    "items": {
+                        "properties" : {
+                            "user_id": {
+                                "required":true,
+                                "type": "string"
+                            }
+                        }
+                    }
                 },
-                "down_vote": {
-                    "type": "number"
+                "unlikes": {
+                    "type" : "array",
+                    "items": {
+                        "properties" : {
+                            "user_id": {
+                                "required":true,
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -685,7 +797,7 @@
     "securityDefinitions": {
         "Bearer": {
             "type": "apiKey",
-            "name": "token",
+            "name": "x-access-token",
             "in": "header"
         },
         "api_key": {

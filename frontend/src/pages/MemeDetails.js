@@ -1,12 +1,14 @@
-import React,{useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useParams, useHistory} from 'react-router-dom';
 import {Avatar, Button, Image, Row, Space, Tag, Form, Input, Comment, Col, Divider, Skeleton} from "antd";
 import {DislikeOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons";
 import useFetch from '../custom-hooks/useFetch';
+import {AuthContext} from "../context-provider/userContext";
 
 export default function MemeDetails(props) {
     const params = useParams();
     const history = useHistory();
+    const auth = useContext(AuthContext);
     const {get, isLoading} = useFetch('http://localhost:3000/api/');
     const [meme, setMeme] = useState({});
 
@@ -43,7 +45,12 @@ export default function MemeDetails(props) {
     );
 
     const handleSubmit = () => {
-        console.log('submit comment')
+        if(auth.user !== null){
+            console.log('submit comment')
+        }else{
+            props.onShowModal(true,'signin');
+        }
+
     };
 
     const handleChange = e => {
@@ -57,12 +64,12 @@ export default function MemeDetails(props) {
             <h2>{meme?.description}</h2>
             <p>{meme?.comments?.length} Comments</p>
             <div>
-                <Button onClick={() => props.onUpVoteClick()} style={{marginRight: 10}}>
+                <Button onClick={() => auth.user !== null ? props.onUpVoteClick(meme) : props.onShowModal(true,'signin', 'Sign In')} style={{marginRight: 10}}>
                     <IconText icon={LikeOutlined}
                     // text={item.up_vote}
                     key="list-vertical-like-o"/> &nbsp;{meme.up_vote}
                 </Button>
-                <Button onClick={() => props.onDownVoteClick()}>
+                <Button onClick={() => auth.user !== null ? props.onDownVoteClick(meme) : props.onShowModal(true,'signin', 'Sign In')}>
                     <IconText icon={DislikeOutlined}
                         // text={item.down_vote}
                     key="list-vertical-like-o"/> &nbsp;{meme.down_vote}
@@ -80,9 +87,6 @@ export default function MemeDetails(props) {
                         />
                     }
                 />
-            </div>
-            <div>
-                <Tag color="magenta">funny</Tag>
             </div>
             <Divider/>
             <div>

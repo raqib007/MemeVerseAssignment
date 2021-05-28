@@ -28,13 +28,14 @@ export default function AppHeader(props) {
                 {auth.user !== null ?
                 ( <div className="header-button">
                     <Avatar icon={<UserOutlined />} /> &nbsp;&nbsp;
-                    <Button type="primary" shape="round" icon={<UploadOutlined />}>Upload</Button>
+                    <Button type="primary" onClick={() => props.showModal(true,'upload','Create Post')}
+                            shape="round" icon={<UploadOutlined />}>Upload</Button>
                     <Button type="text" onClick={() => handleLogoutClick()}>Logout</Button>
                 </div>
                 ) :
                 ( <div className="header-button">
-                    <Button type="text" onClick={() => props.showModal(true,'signin')}>Login</Button>
-                    <Button type="text" onClick={() => props.showModal(true,'signup')}>Sign Up</Button>
+                    <Button type="text" onClick={() => props.showModal(true,'signin','Sign In')}>Login</Button>
+                    <Button type="text" onClick={() => props.showModal(true,'signup','Sign Up')}>Sign Up</Button>
                 </div>)}
 
             </div>

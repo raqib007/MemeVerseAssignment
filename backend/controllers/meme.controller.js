@@ -3,7 +3,7 @@ const db = require('../models');
 const Meme = db.memes;
 const Comment = db.comments;
 
-// Create and Save a new comment
+// Create and Save a new meme
 exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -16,6 +16,7 @@ exports.create = (req, res) => {
     }
 
     // Save meme in the database
+    req.body.user_id = req.userId;
     Meme.create(req.body)
         .then(data => {
             res.send(
@@ -36,7 +37,6 @@ exports.create = (req, res) => {
             });
         });
 };
-
 // Update a meme by the id in the request
 exports.update = (req, res) => {
     console.log(res.params);
@@ -57,19 +57,18 @@ exports.update = (req, res) => {
             });
         });
 };
-
 // Find a single meme with an id
 exports.findOne = async (req, res) => {
     const id = req.params.meme_id;
-    try{
+    try {
         let memes = await Meme.findById(id)
             .populate('category', { 'name': 1 })
-            .populate('user_id', { 'email': 1,'first_name': 1,'last_name': 1 });
+            .populate('user_id', { 'email': 1, 'first_name': 1, 'last_name': 1 });
         let data = [];
         const comments = await Comment.find({ meme_id: new ObjectId(memes._id) });
-        data.push(Object.assign({},memes?._doc,{comments:comments}));
+        data.push(Object.assign({}, memes?._doc, { comments: comments }));
         res.status(200).json(data[0]);
-    }catch (error){
+    } catch (error) {
         res.status(500).send({
             message:
                 error.message || "Some error occurred while retrieving user memes."
@@ -78,17 +77,17 @@ exports.findOne = async (req, res) => {
 };
 // Retrieve all meme from the database.
 exports.getAll = async (req, res) => {
-    try{
+    try {
         let memes = await Meme.find({})
-            .populate('category', { 'name': 1 })
-            .populate('user_id', { 'email': 1,'first_name': 1,'last_name': 1 });
+            .populate('user_id', { 'email': 1, 'first_name': 1, 'last_name': 1 })
+            .populate('category', { 'name': 1 });
         let data = [];
         for (const meme of memes) {
             const comments = await Comment.find({ meme_id: new ObjectId(meme._id) });
-            data.push(Object.assign({},meme?._doc,{comments:comments}));
+            data.push(Object.assign({}, meme?._doc, { comments: comments }));
         }
         res.status(200).json(data);
-    }catch (error){
+    } catch (error) {
         res.status(500).send({
             message:
                 error.message || "Some error occurred while retrieving user memes."
@@ -119,4 +118,56 @@ exports.delete = (req, res) => {
                 message: "Could not delete Meme with id=" + id
             });
         });
+};
+
+// Like a meme with the specified id in the request
+exports.like = (req, res) => {
+    const id = req.params.meme_id;
+    Meme.findByIdAndUpdate(id, {
+        $pull: { unlikes: req.userId }
+    }, {
+        new: true
+    }, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: err })
+            }
+            Meme.findByIdAndUpdate(id, {
+                $push: { likes: req.userId }
+            }, {
+                new: true
+            }, (error, result2) => {
+                    if (error) {
+                        return res.status(500).json({ error: error })
+                    }
+                    return res.status(200).json({ data: result2 })
+                }
+            )
+        }
+    )
+};
+
+// Dislike a meme with the specified id in the request
+exports.dislike = (req, res) => {
+    const id = req.params.meme_id;
+    Meme.findByIdAndUpdate(id, {
+        $pull: { likes: req.userId }
+    }, {
+        new: true
+    }, (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: err })
+            }
+            Meme.findByIdAndUpdate(id, {
+                $push: { unlikes: req.userId }
+            }, {
+                new: true
+            }, (error, result2) => {
+                    if (error) {
+                        return res.status(500).json({ error: error })
+                    }
+                    return res.status(200).json({ data: result2 })
+                }
+            )
+        }
+    )
 };

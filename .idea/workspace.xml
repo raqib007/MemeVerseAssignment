@@ -3,7 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="e57c96e0-34af-4d64-bf48-d8249fd99e27" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppLayout/AppLayout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppSider/AppSider.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Category.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Meme.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Meme.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/forms/SigninForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/forms/SigninForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/forms/SignupForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/forms/SignupForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/MemeDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/MemeDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/css/category.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/css/category.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/css/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +56,7 @@
       <recent name="G:\MemeVerse\frontend\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\MemeVerse\frontend\src\pages" />
       <recent name="G:\MemeVerse\frontend\src\components" />
     </key>
   </component>
@@ -58,7 +71,8 @@
       <workItem from="1622037151450" duration="11760000" />
       <workItem from="1622107004757" duration="10351000" />
       <workItem from="1622121980833" duration="8508000" />
-      <workItem from="1622136713767" duration="4669000" />
+      <workItem from="1622136713767" duration="16390000" />
+      <workItem from="1622178146981" duration="6107000" />
     </task>
     <servers />
   </component>

@@ -13,22 +13,8 @@
     margin-top: 65px;
 }
 .div-category{
-    /* overflow: auto;
-    height: calc(100vh - 65px);
-    background-color: #fafafa; */
-    height: 100%;
-    width: 160px;
-    position: fixed;
-    z-index: 1;
-    top: 64px;
-    left: calc(12vw - 0px);
     background-color: #fafafa;
-    overflow-x: hidden;
 }
 .site-layout-content {
-    left: 370px;
-    position: absolute;
-    font-size: 15px; 
     padding: 0px 10px;
-    background: #fff;
 }

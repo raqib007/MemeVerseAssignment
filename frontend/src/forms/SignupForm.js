@@ -9,7 +9,7 @@ export default function Signup(props){
 
     const handleSigninClick = (e) => {
         e.preventDefault();
-        props.onSigninClick(true,'signin');
+        props.onSigninClick(true,'signin','Sign In');
     }
 
     return(
