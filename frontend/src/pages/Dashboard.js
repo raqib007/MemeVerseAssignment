@@ -1,11 +1,11 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {Layout, Button, Modal, message, Row, Col, Typography, Spin} from 'antd';
+import {Layout, Modal, Row, Col, Typography, message} from 'antd';
 import {Route, Switch} from 'react-router-dom';
 import SigninForm from '../forms/SigninForm';
 import SignupForm from '../forms/SignupForm';
 import FileUpload from "../forms/FileUpload";
 import AppHeader from "../components/AppHeader/AppHeader";
-import fetch from '../custom-hooks/useFetch';
+import useFetch from '../custom-hooks/useFetch';
 import {AuthContext} from '../context-provider/userContext';
 import Category from "../components/Category";
 import Meme from "./Meme";
@@ -20,12 +20,12 @@ const {Content} = Layout;
 export default function Dashboard(props) {
     const auth = useContext(AuthContext);
     const [categories, setCategories] = useState([]);
-    const [memes, setMemes] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalFormType, setModalFormType] = useState('');
     const [modalTitle, setModalTitle] = useState('');
-    // const {get, post, put, isLoading} = fetch('https://meme-verse-2021.herokuapp.com/api/');
-    const {get, post, put, isLoading} = fetch('http://localhost:3000/api/');
+    const [errorMsg, seterrorMsg] = useState('');
+    const {get, put, isLoading} = useFetch(process.env.REACT_APP_BASE_URL);
+    const base_url = process.env.REACT_APP_BASE_URL;
 
     useEffect(() => {
         get('category')
@@ -35,55 +35,78 @@ export default function Dashboard(props) {
             .catch(error => {
                 console.log(error);
             });
-
-        get('meme')
-            .then(response => {
-                setMemes(response);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
     }, []);
 
     function setModal2Visible(val, type, title) {
         setModalVisible(val);
         setModalFormType(type);
         setModalTitle(title);
+        seterrorMsg('');
     }
 
     function handleSigninClick(values) {
-        post('signin', values)
-            .then(response => {
-                console.log(response);
-                if (response?.token) {
-                    localStorage.setItem('token', JSON.stringify(response.token));
-                    auth.setAuth().then(() => {
-                        //let { from } = location.state || { from: { pathname: "/home" } };
-                        console.log('logged in');
-                        setModal2Visible(false, '');
-                        //history.replace(from);
-                    });
-
-                } else {
-                    message.error(response.message);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        console.log(values);
+        fetch(`${base_url}signin`,{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(values)
+        }).then(res=>{
+            if(res.status == 200){
+                seterrorMsg('');
+                return res.json();
+            }else{
+                message.error('Username or password wrong!');
+                seterrorMsg('Username or password wrong!');
+                throw new Error("HTTP status " + res.status);
+            }
+        }).then(data=>{
+            localStorage.setItem('token', JSON.stringify(data.token));
+            auth.setAuth().then(() => {
+                setModal2Visible(false, '');
+            });
+        }).catch(err=>{
+            console.log('err',err);
+        });
     }
 
     function handleSignupClick(values) {
         console.log(values);
+        fetch(`${base_url}users`,{
+            method:"post",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(values)
+        }).then(res=>{
+            //console.log(res);
+            if(res.status == 200){
+                seterrorMsg('');
+                return res.json();
+            }else{
+                seterrorMsg(res.message);
+                throw new Error("HTTP status " + res.status);
+            }
+        }).then(data=>{
+            console.log(data);
+            if(data.success){
+                setModal2Visible(true, 'signin','Sign In');
+            }else{
+                message.error(data.message);
+                seterrorMsg(data.message);
+            }
+        }).catch(err=>{
+            console.log('err',err);
+        })
     }
 
     function handleUpVoteClick(meme) {
-        console.log(meme);
-        put(`meme/${meme._id}`, {
-            up_vote: ++meme.up_vote
-        })
+        let url = `meme/like/${meme._id}`;
+        let alreadyExists = meme.likes.filter(item=>(item == auth.user.userId));
+        if(alreadyExists.length > 0){
+            url = `meme/removelike/${meme._id}`;
+        }
+        put(url, {})
             .then(response => {
                 console.log(response);
             })
@@ -93,10 +116,12 @@ export default function Dashboard(props) {
     }
 
     function handleDownVoteClick(meme) {
-        console.log(meme);
-        put(`meme/${meme._id}`, {
-            down_vote: ++meme.down_vote
-        })
+        let url = `meme/unlike/${meme._id}`;
+        let alreadyExists = meme.likes.filter(item=>(item == auth.user.userId));
+        if(alreadyExists.length > 0){
+            url = `meme/removeunlike/${meme._id}`;
+        }
+        put(url, {})
             .then(response => {
                 console.log(response);
             })
@@ -115,14 +140,13 @@ export default function Dashboard(props) {
         let content;
         if(modalFormType === 'signin'){
             content = <SigninForm onSigninClick={handleSigninClick} onAccountClick={setModal2Visible}
-                                  isLoading={isLoading}/>;
+                                  isLoading={isLoading} errorMsg={errorMsg}/>;
         }else if(modalFormType === 'signup'){
             content = <SignupForm onSignupClick={handleSignupClick} onSigninClick={setModal2Visible}
-                                  isLoading={isLoading}/>;
+                                  isLoading={isLoading} errorMsg={errorMsg}/>;
         }else if(modalFormType === 'upload'){
-            content = <FileUpload/>;
+            content = <FileUpload modalStatus={setModal2Visible} user={auth.user.userId}/>;
         }
-
         return content;
     }
 
@@ -139,18 +163,15 @@ export default function Dashboard(props) {
                             </Sticky>
                         </Col>
                         <Col span={12} className="site-layout-content">
-                            <Spin spinning={isLoading}>
                                 <Switch>
                                     <Route path="/" exact>
-                                        <Meme memes={memes}
-                                              onUpVoteClick={handleUpVoteClick}
+                                        <Meme onUpVoteClick={handleUpVoteClick}
                                               onDownVoteClick={handleDownVoteClick}
                                               onShowModal={setModal2Visible}
                                         />
                                     </Route>
-                                    <Route path="/meme/:type" exact>
-                                        <Meme memes={memes}
-                                              onUpVoteClick={handleUpVoteClick}
+                                    <Route path="/meme/:id" exact>
+                                        <Meme onUpVoteClick={handleUpVoteClick}
                                               onDownVoteClick={handleDownVoteClick}
                                               onShowModal={setModal2Visible}
                                         />
@@ -174,7 +195,6 @@ export default function Dashboard(props) {
                                         <h1 style={{textAlign: 'center'}}>404 | Not Found</h1>
                                     </Route>
                                 </Switch>
-                            </Spin>
                         </Col>
                     </Row>
                 </Content>

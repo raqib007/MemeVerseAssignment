@@ -4,6 +4,7 @@ const db = require("../models");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
+    // console.log(req.headers["x-access-token"]);
     let token = req.headers["x-access-token"];
 
     if (!token) {
@@ -14,7 +15,7 @@ verifyToken = (req, res, next) => {
         if (err) {
             return res.status(401).send({ message: "Unauthorized!" , status : false});
         }
-        req.userId = decoded.id;
+        req.userId = decoded.userId;
         req.email = decoded.email;
         next();
     });

@@ -1,5 +1,3 @@
-const mongoose = require('mongoose')
-const {ObjectId} = mongoose.Schema.Types
 
 module.exports = mongoose =>{
     return mongoose.model(
@@ -9,10 +7,8 @@ module.exports = mongoose =>{
            last_name: String,
            email: String,
            password: String,
-           followers:[{type:ObjectId,ref:"user"}],
-           following:[{type:ObjectId,ref:"user"}]
-        //    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
-        //    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }]
+           following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
+           followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }]
         },{timestamps:false})
     );
 }

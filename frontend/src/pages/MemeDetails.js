@@ -1,123 +1,144 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {useParams, useHistory} from 'react-router-dom';
-import {Avatar, Button, Image, Row, Space, Tag, Form, Input, Comment, Col, Divider, Skeleton} from "antd";
-import {DislikeOutlined, LikeOutlined, UserOutlined} from "@ant-design/icons";
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams,Link } from 'react-router-dom';
+import { Avatar, Button, Image, Form, Input, Comment, Divider, Skeleton, Spin ,List, message} from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import useFetch from '../custom-hooks/useFetch';
-import {AuthContext} from "../context-provider/userContext";
+import { AuthContext } from "../context-provider/userContext";
+import MemeButton from "../components/MemeButton";
 
 export default function MemeDetails(props) {
     const params = useParams();
-    const history = useHistory();
     const auth = useContext(AuthContext);
-    const {get, isLoading} = useFetch('http://localhost:3000/api/');
+    const { get, post, put, isLoading } = useFetch(process.env.REACT_APP_BASE_URL);
     const [meme, setMeme] = useState({});
+    const [comment, setComment] = useState('');
+    const [showSkeleton, setShowSkeleton] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
     const { TextArea } = Input;
-    useEffect(()=>{
-        get(`meme/${params.id}`)
-            .then(response=>{
-                console.log(response);
+    useEffect(() => {
+        setShowSkeleton(true);
+        get(`meme/getById/${params.id}`)
+            .then(response => {
                 setMeme(response);
+                setShowSkeleton(false);
             })
-            .catch(error=>{
-                console.log(error);
+            .catch(error => {
+                setShowSkeleton(false);
             });
-    },[]);
-
-    const IconText = ({icon, text}) => (
-        <Space>
-            {React.createElement(icon)}
-            {text}
-        </Space>
-    );
-
-    const Editor = ({ onChange, onSubmit, submitting, value }) => (
-        <>
-            <Form.Item>
-                <TextArea rows={4} onChange={onChange} value={value} />
-            </Form.Item>
-            <Form.Item>
-                <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-                    Add Comment
-                </Button>
-            </Form.Item>
-        </>
-    );
+    }, []);
 
     const handleSubmit = () => {
-        if(auth.user !== null){
-            console.log('submit comment')
-        }else{
-            props.onShowModal(true,'signin');
+        if (auth.user !== null) {
+            if(comment != ''){
+                setSubmitting(true);
+                let comments = Object.assign({}, {
+                    meme_id: params.id,
+                    user_id: auth.user.userId,
+                    comment: comment
+                });
+                post('comment', comments)
+                    .then(response => {
+                        const { comments } = meme;
+                        let resData = response.data;
+                        let userData = {
+                            _id:auth.user.userId,
+                            first_name:auth.user.first_name,
+                            last_name:auth.user.last_name
+                        }
+                        Object.assign(resData,{user_id:userData});
+                        const newComments = [...comments, resData];
+                        setMeme({ ...meme, comments: newComments })
+                        setComment('');
+                        setSubmitting(false);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        setSubmitting(false);
+                    })
+            }
+        } else {
+            props.onShowModal(true, 'signin', 'Sign In');
         }
-
     };
 
     const handleChange = e => {
-        console.log(e.target.value);
+        setComment(e.target.value);
     };
 
-    return (
-        <div>
-            <Skeleton avatar paragraph={{ rows: 12 }} loading={isLoading} active>
-            <div><Avatar size="small" shape="square" icon={<UserOutlined/>}/> Funny - 1h</div>
-            <h2>{meme?.description}</h2>
-            <p>{meme?.comments?.length} Comments</p>
-            <div>
-                <Button onClick={() => auth.user !== null ? props.onUpVoteClick(meme) : props.onShowModal(true,'signin', 'Sign In')} style={{marginRight: 10}}>
-                    <IconText icon={LikeOutlined}
-                    // text={item.up_vote}
-                    key="list-vertical-like-o"/> &nbsp;{meme.up_vote}
-                </Button>
-                <Button onClick={() => auth.user !== null ? props.onDownVoteClick(meme) : props.onShowModal(true,'signin', 'Sign In')}>
-                    <IconText icon={DislikeOutlined}
-                        // text={item.down_vote}
-                    key="list-vertical-like-o"/> &nbsp;{meme.down_vote}
-                </Button>
-            </div>
-            <div style={{marginTop:10}}>
-                <Image
-                    width={'100%'}
-                    src={meme.image_url}
-                    placeholder={
-                        <Image
-                            preview={false}
-                            src={`${meme.image_url}?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200`}
-                            width={200}
-                        />
-                    }
-                />
-            </div>
-            <Divider/>
-            <div>
-                <Comment
-                    content={
-                        <Editor
-                            onChange={handleChange}
-                            onSubmit={handleSubmit}
-                            submitting={false}
-                            value={''}
-                        />
-                    }
-                />
-            </div>
-            <div>
-                {
-                    meme.comments && meme.comments.map(comment=>{
-                        return (<Row key={comment._id} style={{marginTop:2}}>
-                            <Col span={2}>
-                                <Avatar size="large" icon={<UserOutlined />} />
-                            </Col>
-                            <Col span={22}>
-                                <h4 style={{margin:0}}>{comment.user_id}</h4>
-                                <p>{comment.comment}</p>
-                            </Col>
-                        </Row>)
-                    })
-                }
+    const handleCommentDelete = (e,comment) =>{
+        e.preventDefault();
+        console.log(comment);
+        put(`comment/${comment._id}`,{deleted:true})
+        .then(response=>{
+           console.log(response);
+           message.success('Comment deleted');
+           const newComments = meme.comments.filter(com=> com._id !== comment._id);
+           setMeme({...meme, comments : newComments});
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+    }
 
+    return (
+        <Spin spinning={isLoading}>
+            <div style={{ padding: "10px 24px" }}>
+                <Skeleton avatar paragraph={{ rows: 12 }} loading={showSkeleton} active>
+                    <div><Avatar size="small" shape="square" icon={<UserOutlined />} /> {meme?.category?.name} - 1h</div>
+                    <h2>{meme?.description}</h2>
+                    <p>{meme?.comments?.length} Comments</p>
+                    <div>
+                        {!isLoading && <MemeButton item={meme} singinModal={props.onShowModal} />}
+                    </div>
+                    <div style={{ marginTop: 10 }}>
+                        <Image
+                            width={'100%'}
+                            src={meme.image_url}
+                            placeholder={
+                                <Image
+                                    preview={false}
+                                    src={`${meme.image_url}?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_200,w_200`}
+                                    width={200}
+                                />
+                            }
+                        />
+                    </div>
+                    <Divider />
+                    <div>
+                        <Comment
+                            content={
+                                <>
+                                    <Form.Item>
+                                        <TextArea rows={4} onChange={handleChange} value={comment} />
+                                    </Form.Item>
+                                    <Form.Item>
+                                        <Button htmlType="submit" loading={submitting} onClick={handleSubmit} type="primary">
+                                            Add Comment
+                                    </Button>
+                                    </Form.Item>
+                                </>
+                            }
+                        />
+                    </div>
+                    <List
+                        dataSource={meme?.comments}
+                        header={`${meme.comments?.length} ${meme?.comments?.length > 1 ? 'comments' : 'comments'}`}
+                        itemLayout="horizontal"
+                        renderItem={item => (
+                            <List.Item
+                                actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more" onClick={(e)=>handleCommentDelete(e,item)}>remove</a>]} 
+                            >
+                                <List.Item.Meta
+                                    avatar={<Avatar style={{backgroundColor: '#00a2ae',verticalAlign: 'middle'}}size={45}>{item.user_id?.first_name}</Avatar>}
+                                    title={<Link to={`/meme_user/${item.user_id?._id}`}>{item.user_id?.first_name} {item.user_id?.last_name}</Link>}
+                                    description={item.comment}/>
+                            </List.Item>
+                            )}
+                        />
+
+                </Skeleton>
             </div>
-            </Skeleton>
-        </div>
+        </Spin>
     )
 }

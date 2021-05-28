@@ -34,10 +34,9 @@ exports.create = (req, res) => {
             });
         });
 };
-
 // Update a comment by the id in the request
 exports.update = (req, res) => {
-    console.log(res.params);
+    console.log(req.params);
     const id = req.params.comment_id;
     Comment.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
         .then(data => {

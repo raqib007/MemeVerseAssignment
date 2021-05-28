@@ -199,6 +199,20 @@
                     "type": "string"
                 }
             ],
+            "get": {
+                "summary": "Get user deatils with given userId",
+                "tags": [
+                    "User"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                }
+            },
             "put": {
                 "summary": "Update User",
                 "tags": [
@@ -242,6 +256,31 @@
             }
         },
         "/users/{id}/follow-user": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of user table",
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "summary": "Follow user",
+                "tags": ["User"],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/users/{id}/unfollow-user": {
             "parameters": [
                 {
                     "name": "id",
@@ -550,20 +589,6 @@
                     "type": "string"
                 }
             ],
-            "get": {
-                "summary": "Get meme deatils with given meme_id",
-                "tags": [
-                    "Meme Post"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response"
-                        }
-                    }
-                }
-            },
             "put": {
                 "summary": "Update meme",
                 "tags": [
@@ -616,6 +641,31 @@
                 }
             }
         },
+        "/meme/getById/{meme_id}": {
+            "parameters": [
+                {
+                    "name": "meme_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of meme table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get meme deatils with given meme_id",
+                "tags": [
+                    "Meme Post"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                }
+            }
+        },
         "/meme/like/{meme_id}": {
             "parameters": [
                 {
@@ -628,6 +678,36 @@
             ],
             "put": {
                 "summary": "Like meme",
+                "tags": [
+                    "Meme Like"
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meme is updated",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                }
+            }
+        },
+        "/meme/removelike/{meme_id}": {
+            "parameters": [
+                {
+                    "name": "meme_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of meme table",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "summary": "Remove Like meme",
                 "tags": [
                     "Meme Like"
                 ],
@@ -675,6 +755,36 @@
                     }
                 }
             }
+        },
+        "/meme/removeunlike/{meme_id}": {
+            "parameters": [
+                {
+                    "name": "meme_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of meme table",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "summary": "Remove Dislike meme",
+                "tags": [
+                    "Meme Dislike"
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Meme is updated",
+                        "schema": {
+                            "$ref": "#/definitions/response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -688,7 +798,7 @@
                 "password": {
                     "required": true,
                     "type": "string",
-                    "example": "12345678"
+                    "example": "123456"
                 }
             }
         },

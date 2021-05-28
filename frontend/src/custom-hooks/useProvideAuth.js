@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import jwtDecode from "jwt-decode";
 
 export default function useProvideAuth(){
@@ -7,7 +7,6 @@ export default function useProvideAuth(){
         if(localStorage.getItem('token')){
             userData = jwtDecode(JSON.parse(localStorage.getItem('token')));
         }
-        console.log(userData);
         return userData;
     });
 

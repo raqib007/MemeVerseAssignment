@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import {Button, Layout, Menu, Avatar, Upload} from "antd";
+import {Button, Layout, Avatar} from "antd";
 import "./AppHeader.css";
-import {NavLink,useHistory,useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {AuthContext} from "../../context-provider/userContext";
 import logo from "../../assets/img/logo.png";
 import {UserOutlined, UploadOutlined} from '@ant-design/icons';
@@ -9,9 +9,6 @@ import {UserOutlined, UploadOutlined} from '@ant-design/icons';
 export default function AppHeader(props) {
     const auth = useContext(AuthContext);
     const {Header} = Layout;
-    const history = useHistory();
-    const location = useLocation();
-
     function handleLogoutClick(){
         if(localStorage.getItem('token')){
             localStorage.removeItem("token");
@@ -24,7 +21,7 @@ export default function AppHeader(props) {
     return (
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
             <div className="header-content">
-                <img className="logo" src={logo} />
+                <Link to={"/"}><img className="logo" src={logo} alt=""/></Link>
                 {auth.user !== null ?
                 ( <div className="header-button">
                     <Avatar icon={<UserOutlined />} /> &nbsp;&nbsp;
