@@ -23,7 +23,7 @@ MemeVerse kind of 9gag, is full-stack social news aggregation and content(meme) 
 
 This is preview of the app
 
-[Click here to open the app](http://localhost:3001/) 
+[Click here to open the app](https://meme-verse-react.herokuapp.com) 
 
 [Click here to open swagger for backend](https://meme-verse-2021.herokuapp.com/swagger-ui/)
 
