@@ -44,8 +44,8 @@ This is preview of the app
 Current directory: .../MemeVerseAssignment
   ```
     npm install
-    cd backend && npm install 
-    cd ../frontend && npm install
+    cd server && npm install 
+    cd ../client && npm install
     cd ..
     Linux: npm start
     Window: npm run start-w 
