@@ -495,86 +495,24 @@
                 }
             }
         },
-        "/meme/": {
+        "/meme/{category}": {
+            "parameters": [
+                {
+                    "name": "category",
+                    "in": "path",
+                    "required": true,
+                    "description": "type 'all' to get all data or enter category id to retrieve data based on category ",
+                    "type": "string"
+                }
+            ],
             "get": {
+                "summary": "Get meme deatils with given category",
                 "tags": [
                     "Meme Post"
-                ],
-                "summary": "Get all meme",
-                "description": "Endpoint to get all meme.",
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/definitions/response"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Meme Post"
-                ],
-                "summary": "Create new meme",
-                "description": "Endpoint to create meme.",
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "Meme Parameters",
-                        "in": "body",
-                        "description": "Meme to add to the database",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/meme"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/definitions/response"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Access Denied",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/definitions/400error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/400error"
-                        }
+                        "description": "OK"
                     }
                 }
             }
@@ -785,6 +723,125 @@
                     }
                 }
             }
+        },
+        "/comment/": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Create new comment",
+                "description": "Endpoint to create comment.",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "Comment Parameters",
+                        "in": "body",
+                        "description": "Comment to add to the database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/response"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/400error"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/400error"
+                        }
+                    }
+                }
+            }
+        },
+        "/comment/{comment_id}": {
+            "parameters": [
+                {
+                    "name": "comment_id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Primary key of comment table",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "summary": "Get comment deatils with given comment_id",
+                "tags": [
+                    "Comment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update Comment",
+                "tags": [
+                    "Comment"
+                ],
+                "parameters": [
+                    {
+                        "name": "Comment",
+                        "in": "body",
+                        "description": "Comment details",
+                        "schema": {
+                            "$ref": "#/definitions/comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment is updated"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Comment with given comment_id",
+                "tags": [
+                    "Comment"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comment is deleted"
+                    },
+                    "404": {
+                        "description": "id not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -869,6 +926,30 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "comment": {
+            "properties": {
+                "parent_id": {
+                    "required": true,
+                    "type": "string"
+                },
+                "user_id": {
+                    "required": true,
+                    "type": "string"
+                },
+                "meme_id": {
+                    "required": true,
+                    "type": "string"
+                },
+                "comment": {
+                    "required": true,
+                    "type": "string"
+                },
+                "deleted": {
+                    "required": true,
+                    "type": "boolean"
                 }
             }
         },
